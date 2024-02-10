@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ItemList from "./ItemList";
 import Container from 'react-bootstrap/Container';
@@ -9,8 +9,11 @@ const ItemListContainer = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const { category } = useParams();
-    console.log("Categoría:", category);
+    
 
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [category]);
 
     useEffect(() => {
         fetchMovies();
@@ -18,11 +21,10 @@ const ItemListContainer = () => {
 
     const fetchMovies = async () => {
         const API_KEY = '7602a30b9c6d1828ef7757d759a7eb04';
-        let apiUrl = `https://api.themoviedb.org/3/trending/movie/day?language=en-US&page=${currentPage}&api_key=${API_KEY}`;
+        let apiUrl = `https://api.themoviedb.org/3/trending/movie/day?language=es-US&page=${currentPage}&api_key=${API_KEY}`;
 
         if (category !== undefined) {
-            apiUrl = `https://api.themoviedb.org/3/discover/movie?with_genres=${category}&api_key=${API_KEY}`;
-            console.log("apiUrl:", apiUrl);
+            apiUrl = `https://api.themoviedb.org/3/discover/movie?language=es-US&with_genres=${category}&page=${currentPage}&api_key=${API_KEY}`;
             
         }
 
@@ -43,9 +45,10 @@ const ItemListContainer = () => {
     };  
 
     return (
+        
         <div>
             <Container>
-                <h1>ItemListContainer</h1>
+                <h1>ViendoPelis</h1>
                 <ItemList peliculas={peliculas} />
                 <div style={{ padding:'23px' }}>
                     <Button variant="dark" onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 1}>Anterior</Button>
