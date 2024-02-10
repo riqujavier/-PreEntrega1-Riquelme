@@ -3,22 +3,24 @@ import  { useState } from 'react';
 import ItemListContainer from './components/ItemListContainer/ItemListContainer';
 import NavBar from './components/NavBar/Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {BrowserRouter,Routes, Route} from 'react-router-dom'
 
 function App() {
-  const [categoria, setCategoria] = useState(null);
-  const handleCategoryFilter = (category) => {
-    setCategoria(category === categoria ? null : category);
-};
+
 
 
   return (
     <>
       
-      <div className="app">
-            <NavBar handleCategoryFilter={handleCategoryFilter} />
-            <ItemListContainer categoria={categoria} />
+      <BrowserRouter>
+      <NavBar  />
+        <Routes>
+          <Route path='/' element={<ItemListContainer/> } />
+          <Route path="/categoria/:category" element={<ItemListContainer />} />
+        </Routes>
+      </BrowserRouter>
       
-      </div>
+  
     </>
   )
 }
