@@ -1,5 +1,6 @@
-// ItemList.jsx
-import React, { useState } from 'react';
+/* eslint-disable react/prop-types */
+
+import  { useState } from 'react';
 import Item from './Item';
 import ItemDetailContainer from './ItemDetailContainer';
 import Row from 'react-bootstrap/Row';
