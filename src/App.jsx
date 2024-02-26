@@ -4,6 +4,7 @@ import NavBar from './components/NavBar/NavBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {BrowserRouter,Routes, Route} from 'react-router-dom'
 import ItemDetailContainer from './components/ItemListContainer/ItemDetailContainer';
+import { CartProvider } from './components/CartContext/CartContext';
 
 function App() {
 
@@ -11,7 +12,7 @@ function App() {
 
   return (
     <>
-      
+      <CartProvider>
       <BrowserRouter>
       <NavBar  />
         <Routes>
@@ -20,7 +21,7 @@ function App() {
           <Route path="/pelicula/:id" element={<ItemDetailContainer />} />
         </Routes>
       </BrowserRouter>
-      
+      </CartProvider>
   
     </>
   )

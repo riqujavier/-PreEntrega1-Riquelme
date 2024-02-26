@@ -1,12 +1,14 @@
-import  { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { useParams } from 'react-router-dom'; 
+import { CartContext } from '../CartContext/CartContext';
 
 const ItemDetailContainer = () => {
     const { id } = useParams(); 
     const [peli, setPeli] = useState(null);
     const [loading, setLoading] = useState(true);
+    const { addItem, isInCart, removeItem } = useContext(CartContext);
 
     useEffect(() => {
         const fetchMovieDetails = async () => {
@@ -29,6 +31,14 @@ const ItemDetailContainer = () => {
         }
     }, [id]);
 
+    const handleAddToCart = () => {
+        addItem(peli, 1);
+    };
+
+    const handleRemoveFromCart = () => {
+        removeItem(peli.id);
+    };
+
     if (!id) {
         return <p>Selecciona una película</p>;
     }
@@ -48,7 +58,22 @@ const ItemDetailContainer = () => {
                 <Card.Title>{peli.title}</Card.Title>
                 <Card.Text>{peli.overview}</Card.Text>
                 <Card.Text>Valoración: {peli.vote_average}</Card.Text>
-                <Button variant="primary" onClick="">Agregar al carrito</Button>
+                <Button 
+                    style={{ margin: '1rem' }} 
+                    variant="primary" 
+                    onClick={handleAddToCart}
+                    disabled={isInCart(peli.id)} 
+                >
+                    Agregar al carrito
+                </Button>
+                {isInCart(peli.id) && (
+                    <Button 
+                        variant="danger"
+                        onClick={handleRemoveFromCart}
+                    >
+                        Quitar del carrito
+                    </Button>
+                )}
             </Card.Body>
         </Card>
     );
