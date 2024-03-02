@@ -8,7 +8,9 @@ const ItemDetailContainer = () => {
     const { id } = useParams(); 
     const [peli, setPeli] = useState(null);
     const [loading, setLoading] = useState(true);
-    const { addItem, isInCart, removeItem } = useContext(CartContext);
+    const { addItem, isInCart, cart, removeItem } = useContext(CartContext);
+    const [cartItemCount, setCartItemCount] = useState(0);
+    const [quantity, setQuantity] = useState(1);
 
     useEffect(() => {
         const fetchMovieDetails = async () => {
@@ -30,15 +32,24 @@ const ItemDetailContainer = () => {
             fetchMovieDetails();
         }
     }, [id]);
+    useEffect(() => {
+        // Calcula la cantidad total de ítems en el carrito
+        const totalCount = cart.reduce((total, item) => total + item.quantity, 0);
+        setCartItemCount(totalCount);
+    }, [cart]); 
 
     const handleAddToCart = () => {
-        addItem(peli, 1);
+        const existingItem = cart.find(item => item.id === peli.id);
+        
+        if (existingItem && existingItem.quantity + quantity > 10) {
+            alert('No se pueden agregar más de 10 veces la misma película al carrito.');
+            return;
+        }
+    
+        addItem(peli, quantity);
     };
-
-    const handleRemoveFromCart = () => {
-        removeItem(peli.id);
-    };
-
+    
+    
     if (!id) {
         return <p>Selecciona una película</p>;
     }
@@ -50,6 +61,9 @@ const ItemDetailContainer = () => {
     if (!peli) {
         return <p>No se pudieron cargar los detalles de la película</p>;
     }
+    const handleRemoveFromCart = () => {
+        removeItem(peli.id);
+    };
 
     return (
         <Card>
@@ -58,11 +72,16 @@ const ItemDetailContainer = () => {
                 <Card.Title>{peli.title}</Card.Title>
                 <Card.Text>{peli.overview}</Card.Text>
                 <Card.Text>Valoración: {peli.vote_average}</Card.Text>
+                <div>
+                    <Button variant="primary" onClick={() => setQuantity(quantity - 1)} disabled={quantity === 1}>-</Button>
+                    <span style={{ margin: '0 10px' }}>{quantity}</span>
+                    <Button variant="primary" onClick={() => setQuantity(quantity + 1)} disabled={quantity >= 10}>+</Button>
+                </div>
                 <Button 
                     style={{ margin: '1rem' }} 
                     variant="primary" 
                     onClick={handleAddToCart}
-                    disabled={isInCart(peli.id)} 
+                    disabled={isInCart(peli.id) && isInCart(peli.id).quantity >= 3} 
                 >
                     Agregar al carrito
                 </Button>

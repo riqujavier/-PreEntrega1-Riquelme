@@ -8,8 +8,9 @@ import { CartContext } from '../CartContext/CartContext';
 
 const Item = ({ peli }) => {
     const [showDetails, setShowDetails] = useState(false);
-    const { addItem, removeItem, isInCart } = useContext(CartContext);
+    const { addItem, removeItem, isInCart, cart } = useContext(CartContext);
     const [price] = useState(10);
+    const [quantity, setQuantity] = useState(1);
 
     const toggleDetails = () => {
         setShowDetails(!showDetails);
@@ -23,7 +24,14 @@ const Item = ({ peli }) => {
     const description = showDetails ? peli.overview : limitWords(peli.overview, 20);
 
     const handleAddToCart = () => {
-        addItem(peli, 1);
+        const existingItem = cart.find(item => item.id === peli.id);
+        
+        if (existingItem && existingItem.quantity + quantity > 3) {
+            alert('No se pueden agregar más de 3 veces la misma película al carrito.');
+            return;
+        }
+
+        addItem(peli, quantity);
     };
 
     const handleRemoveFromCart = () => {
@@ -37,11 +45,16 @@ const Item = ({ peli }) => {
                 <Card.Body>
                     <Card.Title>{peli.title}</Card.Title>
                     <Card.Text>{description}</Card.Text>
+                    <div>
+                        <Button variant="primary" onClick={() => setQuantity(quantity - 1)} disabled={quantity === 1}>-</Button>
+                        <span style={{ margin: '0 10px' }}>{quantity}</span>
+                        <Button variant="primary" onClick={() => setQuantity(quantity + 1)} disabled={quantity >= 3}>+</Button>
+                    </div>
                     <Button 
                         style={{ margin: '1rem' }} 
                         variant="primary" 
                         onClick={handleAddToCart}
-                        disabled={isInCart(peli.id)} 
+                        disabled={isInCart(peli.id) || quantity > 3} 
                     >
                         <MdOutlineShoppingCart />
                         {isInCart(peli.id) ? 'Ya en el carrito' : `Agregar al carrito - $${price}`}
