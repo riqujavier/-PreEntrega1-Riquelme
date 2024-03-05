@@ -9,8 +9,9 @@ import { CartContext } from '../CartContext/CartContext';
 const Item = ({ peli }) => {
     const [showDetails, setShowDetails] = useState(false);
     const { addItem, removeItem, isInCart, cart } = useContext(CartContext);
-    const [price] = useState(10);
     const [quantity, setQuantity] = useState(1);
+    console.log(peli)
+    console.log(peli.poster_path)
 
     const toggleDetails = () => {
         setShowDetails(!showDetails);
@@ -21,10 +22,10 @@ const Item = ({ peli }) => {
         return words.slice(0, limit).join(' ') + (words.length > limit ? '...' : '');
     };
 
-    const description = showDetails ? peli.overview : limitWords(peli.overview, 20);
+    const description = showDetails ? peli.description : limitWords(peli.description, 20);
 
     const handleAddToCart = () => {
-        const existingItem = cart.find(item => item.id === peli.id);
+        const existingItem = cart.find(item => item.categoryId === peli.categoryId);
         
         if (existingItem && existingItem.quantity + quantity > 3) {
             alert('No se pueden agregar más de 3 veces la misma película al carrito.');
@@ -35,13 +36,13 @@ const Item = ({ peli }) => {
     };
 
     const handleRemoveFromCart = () => {
-        removeItem(peli.id);
+        removeItem(peli.categoryId);
     };
 
     return (
         <Col>
             <Card>
-                <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500/${peli.poster_path}`} />
+                <Card.Img variant="top" src={peli.poster_path} />
                 <Card.Body>
                     <Card.Title>{peli.title}</Card.Title>
                     <Card.Text>{description}</Card.Text>
@@ -57,7 +58,7 @@ const Item = ({ peli }) => {
                         disabled={isInCart(peli.id) || quantity > 3} 
                     >
                         <MdOutlineShoppingCart />
-                        {isInCart(peli.id) ? 'Ya en el carrito' : `Agregar al carrito - $${price}`}
+                        {isInCart(peli.id) ? 'Ya en el carrito' : `Agregar al carrito - ${peli.price}`}
                     </Button>
                     {isInCart(peli.id) && (
                         <Button 
@@ -67,7 +68,7 @@ const Item = ({ peli }) => {
                             Quitar del carrito
                         </Button>
                     )} 
-                    <Link to={`/pelicula/${peli.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <Link to={{ pathname: `/pelicula/${peli.categoryId}`, state: { peli: peli } }} style={{ textDecoration: 'none', color: 'inherit' }} >
                         <Button 
                             style={{ margin: '1rem' }} 
                             onClick={toggleDetails}

@@ -11,17 +11,14 @@ const CartWidget = () => {
         setShowCart(!showCart);
     };
 
-    // Calcula la cantidad total de ítems en el carrito
     const itemCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
     return (
         <>
-            {/* Renderiza el CartWidget solo si hay ítems en el carrito */}
             {itemCount > 0 && (
                 <div style={{ position: 'relative' }}>
                     <button onClick={toggleCart} style={{ position: 'relative', zIndex: 1 }}>
                         <MdOutlineShoppingCart />
-                        {/* Muestra la cantidad de ítems junto al ícono del carrito */}
                         {itemCount > 0 && <span style={{ position: 'absolute', top: '-10px', right: '-10px', backgroundColor: 'red', borderRadius: '50%', padding: '2px 5px', color: 'white', fontSize: '12px' }}>{itemCount}</span>}
                     </button>
                     <Link to="/cart"> 

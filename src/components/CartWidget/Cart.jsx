@@ -31,7 +31,7 @@ const Cart = () => {
                         {cart.map(item => (
                             <Col key={item.id}>
                                 <Card>
-                                <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`} />
+                                <Card.Img variant="top" src={`${item.poster_path}`} />
                                     <Card.Body>
                                         <Card.Title>{item.title}</Card.Title>
                                         <Card.Text>Cantidad: {item.quantity}</Card.Text>
