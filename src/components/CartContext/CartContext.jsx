@@ -6,12 +6,13 @@ export function CartProvider({ children }) {
     const [cart, setCart] = useState([]);
 
     function addItem(item, quantity) {
-        const existingItem = cart.find(cartItem => cartItem.id === item.id);
-
+        
+        const existingItem = cart.find(cartItem => cartItem.categoryId === item.categoryId);
+        console.log(existingItem);
         
         if (existingItem) {
             const updatedCart = cart.map(cartItem =>
-                cartItem.id === item.id
+                cartItem.categoryId === item.categoryId
                     ? { ...cartItem, quantity: cartItem.quantity + quantity }
                     : cartItem
             );
@@ -22,7 +23,7 @@ export function CartProvider({ children }) {
     }
 
     function removeItem(itemId) {
-        const updatedCart = cart.filter(item => item.id !== itemId);
+        const updatedCart = cart.filter(item => item.categoryId !== itemId);
         setCart(updatedCart);
     }
 
@@ -31,7 +32,7 @@ export function CartProvider({ children }) {
     }
 
     function isInCart(itemId) {
-        return cart.some(item => item.id === itemId);
+        return cart.some(item => item.categoyId === itemId);
     }
 
     return (

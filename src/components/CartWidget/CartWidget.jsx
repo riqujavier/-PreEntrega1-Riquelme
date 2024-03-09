@@ -41,7 +41,7 @@ const CartWidget = () => {
                                 <ul>
                                     {cart.map(item => (
                                         <li key={item.id}>
-                                            {item.title} - Precio: $10- Cantidad: {item.quantity}
+                                            {item.title} - Precio: ${item.price} - Cantidad: {item.quantity}
                                         </li>
                                     ))}
                                 </ul>

@@ -14,16 +14,16 @@ function NavBar() {
       <Navbar.Collapse id="navbarScroll">
         <Nav className="me-auto my-2 my-lg-0" style={{ maxHeight: '100px' }} navbarScroll>
           <Nav.Link as={Link} to="/">Inicio</Nav.Link>
-          <Nav.Link as={Link} to="/categoria/28">Acción</Nav.Link>
-          <Nav.Link as={Link} to="/categoria/35">Comedia</Nav.Link>
-          <Nav.Link as={Link} to="/categoria/18">Drama</Nav.Link>
-          <Nav.Link as={Link} to="/categoria/27">Terror</Nav.Link>
-          <Nav.Link as={Link} to="/categoria/10749">Romance</Nav.Link>
-          <Nav.Link as={Link} to="/categoria/10770">Películas de TV</Nav.Link>
+          <Nav.Link as={Link} to="/categoria/accion">Acción</Nav.Link>
+          <Nav.Link as={Link} to="/categoria/comedia">Comedia</Nav.Link>
+          <Nav.Link as={Link} to="/categoria/drama">Drama</Nav.Link>
+          <Nav.Link as={Link} to="/categoria/terror">Terror</Nav.Link>
+          <Nav.Link as={Link} to="/categoria/romance">Romance</Nav.Link>
+          <Nav.Link as={Link} to="/categoria/peliculas-de-TV">Películas de TV</Nav.Link>
           
           <NavDropdown title="Otras Categorías" id="navbarScrollingDropdown">
-            <NavDropdown.Item as={Link} to="/categoria/53">Thriller</NavDropdown.Item>
-            <NavDropdown.Item as={Link} to="/categoria/878">Ciencia Ficción</NavDropdown.Item>
+            <NavDropdown.Item as={Link} to="/categoria/thriller">Thriller</NavDropdown.Item>
+            <NavDropdown.Item as={Link} to="/categoria/ciencia-ficcion">Ciencia Ficción</NavDropdown.Item>
             
           </NavDropdown>
           <Nav.Link href="#" >
