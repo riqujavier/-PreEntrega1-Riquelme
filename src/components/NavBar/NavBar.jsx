@@ -9,10 +9,16 @@ import CartWidget from '../CartWidget/CartWidget';
 function NavBar() {
   return (
     <Navbar expand="lg" className="bg-body-tertiary"> 
-      <Navbar.Brand  ><Link to={'/'}>ViendoPelis</Link> </Navbar.Brand>
+      <Navbar.Brand  ><img
+              alt=""
+              src="/viendopeli.svg"
+              width="30"
+              height="30"
+              className="d-inline-block align-top"
+            /><Link to={'/'}>ViendoPelis</Link> </Navbar.Brand>
       <Navbar.Toggle aria-controls="navbarScroll" />
       <Navbar.Collapse id="navbarScroll">
-        <Nav className="me-auto my-2 my-lg-0" style={{ maxHeight: '100px' }} navbarScroll>
+        <Nav className="me-auto my-2 my-lg-0" style={{ maxHeight: '150px' }} navbarScroll>
           <Nav.Link as={Link} to="/">Inicio</Nav.Link>
           <Nav.Link as={Link} to="/categoria/accion">Acción</Nav.Link>
           <Nav.Link as={Link} to="/categoria/comedia">Comedia</Nav.Link>
@@ -24,13 +30,13 @@ function NavBar() {
           <NavDropdown title="Otras Categorías" id="navbarScrollingDropdown">
             <NavDropdown.Item as={Link} to="/categoria/thriller">Thriller</NavDropdown.Item>
             <NavDropdown.Item as={Link} to="/categoria/ciencia-ficcion">Ciencia Ficción</NavDropdown.Item>
-            
           </NavDropdown>
           <Nav.Link href="#" >
             <CartWidget />
           </Nav.Link>
         </Nav>
       </Navbar.Collapse>
+      
     </Navbar>
   );
 }

@@ -1,9 +1,10 @@
-import { useEffect, useState,useContext } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { useParams } from 'react-router-dom'; 
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { CartContext } from '../CartContext/CartContext';
+
 
 const ItemDetailContainer = () => {
     const { id } = useParams(); 
@@ -12,7 +13,6 @@ const ItemDetailContainer = () => {
     const { addItem, isInCart, cart, removeItem } = useContext(CartContext);
     const [quantity, setQuantity] = useState(1);
     
-    
     useEffect(() => {
         const fetchItem = async () => {
             const db = getFirestore();
@@ -20,15 +20,13 @@ const ItemDetailContainer = () => {
             const itemSnapshot = await getDoc(itemRef);
             if (itemSnapshot.exists()) {
                 setPeli(itemSnapshot.data());
-                console.log(itemSnapshot.data());
+                
             } else {
                 console.log('Item not found!');
             }
             setLoading(false);
         };
         
-        console.log(peli)
-
         fetchItem();
     }, [id]);
 
@@ -60,22 +58,22 @@ const ItemDetailContainer = () => {
     }
 
     return (
-        <Card>
+        <Card className="item-detail-container">
             <Card.Img variant="top" src={peli.poster_path} />
             <Card.Body>
                 <Card.Title>{peli.title}</Card.Title>
                 <Card.Text>{peli.description}</Card.Text>
                 <Card.Text>Valoración: {peli.vote_average}</Card.Text>
-                <div>
+                <div className="quantity-controls"> 
                     <Button variant="primary" onClick={() => setQuantity(quantity - 1)} disabled={quantity === 1}>-</Button>
-                    <span style={{ margin: '0 10px' }}>{quantity}</span>
-                    <Button variant="primary" onClick={() => setQuantity(quantity + 1)} disabled={quantity >= 10}>+</Button>
+                    <span >{quantity}</span>
+                    <Button variant="primary" onClick={() => setQuantity(quantity + 1)} disabled={quantity >= peli.categoryId}>+</Button>
                 </div>
                 <Button 
-                    style={{ margin: '1rem' }} 
                     variant="primary" 
                     onClick={handleAddToCart}
-                    disabled={isInCart(peli.id) && isInCart(peli.id).quantity >= 3} 
+                    disabled={isInCart(peli.id) && isInCart(peli.id).quantity >= peli.categoryId} 
+                    className='button-item'
                 >
                     Agregar al carrito
                 </Button>
@@ -83,6 +81,7 @@ const ItemDetailContainer = () => {
                     <Button 
                         variant="danger"
                         onClick={handleRemoveFromCart}
+                        className='button-item'
                     >
                         Quitar del carrito
                     </Button>

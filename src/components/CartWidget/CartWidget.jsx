@@ -1,6 +1,6 @@
-import { useState, useContext } from 'react';
-import { MdOutlineShoppingCart } from "react-icons/md";
-import { Link } from 'react-router-dom'; 
+import  { useState, useContext } from 'react';
+import { MdOutlineShoppingCart } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 import { CartContext } from '../CartContext/CartContext';
 
 const CartWidget = () => {
@@ -16,26 +16,16 @@ const CartWidget = () => {
     return (
         <>
             {itemCount > 0 && (
-                <div style={{ position: 'relative' }}>
-                    <button onClick={toggleCart} style={{ position: 'relative', zIndex: 1 }}>
+                <div className="cart-widget">
+                    <button className="cart-button" onClick={toggleCart}>
                         <MdOutlineShoppingCart />
-                        {itemCount > 0 && <span style={{ position: 'absolute', top: '-10px', right: '-10px', backgroundColor: 'red', borderRadius: '50%', padding: '2px 5px', color: 'white', fontSize: '12px' }}>{itemCount}</span>}
+                        {itemCount > 0 && <span className="cart-count">{itemCount}</span>}
                     </button>
-                    <Link to="/cart"> 
-                        <button style={{ position: 'relative', zIndex: 1, marginLeft: '10px' }}>Ver carrito</button>
+                    <Link to="/cart">
+                        <button className="link-button">Ver carrito</button>
                     </Link>
                     {showCart && (
-                        <div style={{ 
-                            position: 'absolute', 
-                            top: '50px', 
-                            right: '0', 
-                            backgroundColor: '#f0f0f0', 
-                            padding: '10px', 
-                            minWidth: '300px',
-                            borderRadius: '10px',
-                            border: '1px solid #ccc',
-                            zIndex: 2  
-                        }}>
+                        <div className="cart-container">
                             <h4>Carrito de compras</h4>
                             {cart.length > 0 ? (
                                 <ul>
@@ -54,7 +44,7 @@ const CartWidget = () => {
                 </div>
             )}
         </>
-    )
-}
+    );
+};
 
 export default CartWidget;

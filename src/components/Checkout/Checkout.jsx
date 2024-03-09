@@ -2,10 +2,12 @@ import { useState, useContext } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { CartContext } from '../CartContext/CartContext';
+import './Checkout.css'
 
 const Checkout = () => {
     const { cart, clearCart } = useContext(CartContext);
-    const [formData, setFormData] = useState({ name: '', email: '', phone: '' });
+    const [formData, setFormData] = useState({ name: '', email: '', confirmEmail: '', phone: '' });
+    const [alertMessage, setAlertMessage] = useState('');
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -14,7 +16,12 @@ const Checkout = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Crear un objeto con la información de la orden
+        
+        if (formData.email !== formData.confirmEmail) {
+            alert('Los correos electrónicos no coinciden');
+            return;
+        }
+
         const orderData = {
             name: formData.name,
             email: formData.email,
@@ -29,6 +36,7 @@ const Checkout = () => {
         try {
             const docRef = await addDoc(ordersCollection, orderData);
             console.log('Orden guardada con ID: ', docRef.id);
+            setAlertMessage(`Compra exitosa. ID de la orden: ${docRef.id}`);
             clearCart();
         } catch (error) {
             console.error('Error al guardar la orden: ', error);
@@ -49,15 +57,25 @@ const Checkout = () => {
                     <Form.Control type="email" placeholder="Ingrese su email" name="email" value={formData.email} onChange={handleChange} required />
                 </Form.Group>
 
+                <Form.Group className="mb-3" controlId="formConfirmEmail">
+                    <Form.Label>Confirmar Email</Form.Label>
+                    <Form.Control type="email" placeholder="Confirme su email" name="confirmEmail" value={formData.confirmEmail} onChange={handleChange} required />
+                </Form.Group>
+
                 <Form.Group className="mb-3" controlId="formPhone">
                     <Form.Label>Teléfono</Form.Label>
                     <Form.Control type="tel" placeholder="Ingrese su teléfono" name="phone" value={formData.phone} onChange={handleChange} required />
                 </Form.Group>
 
-                <Button variant="primary" type="submit">
+                <Button className='button-check' variant="primary" type="submit">
                     Confirmar compra
                 </Button>
             </Form>
+            {alertMessage && (
+                <div className="alert alert-success mt-3" role="alert">
+                    {alertMessage}
+                </div>
+            )}
         </div>
     );
 };
